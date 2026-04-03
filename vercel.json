@@ -1,27 +1,15 @@
 {
   "version": 2,
+  "framework": "create-react-app",
+  "devCommand": "npm run start",
   "installCommand": "npm install",
   "buildCommand": "npm run build",
+  "outputDirectory": "build",
   "builds": [
-    {
-      "src": "package.json",
-      "use": "@vercel/static-build",
-      "config": {
-        "distDir": "build"
-      }
-    },
-    {
-      "src": "api/router.js",
-      "use": "@vercel/node",
-      "config": {
-        "includeFiles": "api/**"
-      }
-    }
+    { "src": "api/router.js", "use": "@vercel/node" }
   ],
-  "routes": [
-    { "src": "/api/router", "dest": "/api/router" },
-    { "src": "/api/(?!router$)(.*)", "dest": "/api/router?route=$1" },
-    { "handle": "filesystem" },
-    { "src": "/(.*)", "dest": "/index.html" }
+  "rewrites": [
+    { "source": "/api/(.*)", "destination": "/api/router?route=$1" },
+    { "source": "/(.*)", "destination": "/index.html" }
   ]
 }

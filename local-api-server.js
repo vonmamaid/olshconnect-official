@@ -31,7 +31,7 @@ app.all('/api/*', async (req, res) => {
     return res.status(404).json({ message: 'API path required' });
   }
 
-  const apiPath = path.join(__dirname, 'api', `${name}.js`);
+  const apiPath = path.join(__dirname, 'api', `_${name}.js`);
   if (!fs.existsSync(apiPath)) {
     return res.status(404).json({ message: `API not found: ${name}` });
   }

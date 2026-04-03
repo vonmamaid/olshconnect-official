@@ -38,7 +38,7 @@ module.exports = async (req, res) => {
     return res.json({ ok: true });
   }
 
-  const handlerPath = path.join(__dirname, `${route}.js`);
+  const handlerPath = path.join(__dirname, `_${route}.js`);
 
   try {
     // eslint-disable-next-line import/no-dynamic-require, global-require
