@@ -12,6 +12,15 @@ function sanitizeRoute(route) {
 }
 
 module.exports = async (req, res) => {
+  // Basic CORS support for deployed environments that call this API cross-origin.
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET,POST,PUT,PATCH,DELETE,OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+
+  if (req.method === 'OPTIONS') {
+    return res.status(200).end();
+  }
+
   const routeFromQuery = req.query && typeof req.query.route === 'string' ? req.query.route : '';
   const route = sanitizeRoute(routeFromQuery);
 
