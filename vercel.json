@@ -8,8 +8,8 @@
   "builds": [
     { "src": "api/router.js", "use": "@vercel/node" }
   ],
-  "routes": [
-    { "src": "/api/router", "dest": "/api/router" },
-    { "src": "/api/(.*)", "dest": "/api/router?route=$1" }
+  "rewrites": [
+    { "source": "/api/:path*", "destination": "/api/router?route=:path*" },
+    { "source": "/(.*)", "destination": "/index.html" }
   ]
 }
