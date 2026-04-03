@@ -23,7 +23,7 @@ import {
   Paper,
   MenuItem,
 } from '@mui/material';
-import { MdAnnouncement, MdEdit, MdDelete, MdAdd } from 'react-icons/md';
+import { MdEdit, MdDelete, MdAdd } from 'react-icons/md';
 import { MyContext } from '../../App';
 
 const AnnouncementsPanel = () => {

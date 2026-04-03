@@ -12,7 +12,6 @@ import {
   Chip,
   Pagination,
   Box,
-  Typography,
   Paper
 } from '@mui/material';
 import { MyContext } from '../../App';
@@ -30,8 +29,6 @@ const StudentAccountsManagement = () => {
   const [page, setPage] = useState(1);
   const [rowsPerPage] = useState(20);
   const [totalPages, setTotalPages] = useState(1);
-  const [totalStudents, setTotalStudents] = useState(0);
-
   const context = useContext(MyContext);
 
   const fetchStudents = useCallback(async () => {
@@ -50,9 +47,7 @@ const StudentAccountsManagement = () => {
       if (response.ok) {
         const data = await response.json();
         setStudents(data.students || []);
-        setTotalPages(data.pagination?.totalPages || 1);
-        setTotalStudents(data.pagination?.total || 0);
-      } else {
+        setTotalPages(data.pagination?.totalPages || 1);      } else {
         const errorData = await response.json();
         throw new Error(errorData.message || errorData.error || 'Failed to fetch student accounts');
       }
@@ -226,4 +221,5 @@ const StudentAccountsManagement = () => {
 };
 
 export default StudentAccountsManagement;
+
 
