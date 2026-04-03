@@ -1,0 +1,1 @@
+export const API_URL = 'https://gateway01.ap-southeast-1.prod.aws.tidbcloud.com:4000';

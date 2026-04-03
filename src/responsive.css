@@ -1,0 +1,646 @@
+@media only screen and (min-width: 320px) and (max-width: 992px){
+
+  .res-hide{display: none !important;}
+  .res-show{display: block !important;}
+
+  header{padding: 15px 0px; height: auto !important;}
+  header .part1, header .part3{padding: 0px !important;}
+  header .part1{max-width: 40% !important; flex: 0 0 40% !important;}
+  header .logo img{width: 35px !important;}
+  header .logo span{font-size: 18px !important;}
+
+  header .part3{max-width: 60% !important; flex: 0 0 60% !important;}
+
+  .main .sidebarWrapper{width: 80% !important; height: 100vh !important; position: fixed !important; top: 0px; left: -100%; z-index: 10000; opacity: 0; transition: all 0.4s ease-in-out;}
+  .main .sidebarWrapper .sidebar{width: 100% !important; position: relative !important; top: 0px !important; max-height: inherit !important;}
+  .main .content{width: 100% !important; flex: 0 0 100% !important;}
+  .right-content{padding: 90px 15px !important;}
+
+  .sidebarWrapper.open{left: 0px !important; opacity: 1 !important;}
+  .sidebarOverlay{position: fixed; top: 0px; left: 0px; z-index: 100; background: rgba(0,0,0,0.7); z-index: 1000 !important; width: 100%; height: 100% !important;}
+
+  .dashboardBoxWrapper{display: flex !important; width: 100% !important; white-space: nowrap !important; overflow-x: scroll !important; overflow-y: hidden !important; margin-bottom: 20px !important; flex-wrap: nowrap !important;}
+  .dashboardBoxWrapper button{flex: 0 0 auto !important; width: 270px !important; height: 160px !important; margin-right: 10px !important; }
+  .dashboardBoxWrapper::-webkit-scrollbar{display: none !important;}
+  .topPart2{padding-left: 15px !important;}
+
+  .homesec {
+    height: auto !important;
+    padding: 20px 10px !important;
+    text-align: center !important;
+}
+
+.intro {
+    max-width: 95% !important;
+    width: 95% !important;
+    padding: 25px 15px !important;
+    margin: 0 auto !important;
+    margin-top: 60px !important;
+    text-align: center !important;
+}
+
+.intro h2 {
+    font-size: 2rem !important;
+    text-align: center !important;
+    margin-bottom: 15px !important;
+    line-height: 1.2 !important;
+}
+
+.intro p {
+    font-size: 1.1rem !important;
+    text-align: center !important;
+    line-height: 1.5 !important;
+    margin-bottom: 15px !important;
+}
+
+.btn-expanded {
+    width: 280px !important;
+    height: 55px !important;
+    font-size: 1.2rem !important;
+    margin: 20px auto !important;
+    display: block !important;
+}
+
+/* Section 2: School */
+#school {
+  height: auto; /* Allow the height to adjust dynamically */
+  padding: 20px 15px; /* Add some padding for better spacing */
+}
+
+#school h1 {
+  font-size: 1.8em; /* Reduce font size for better fit on smaller screens */
+}
+
+#school img {
+  margin-top: 50px; /* Adjust the image margin for smaller screens */
+  height: auto; /* Allow the image to scale properly */
+}
+
+.header-bar h1 {
+    font-size: 1rem !important;
+    text-align: center !important;
+}
+
+
+
+/* Section 3: Offered Courses */
+#courses {
+    height: auto !important;
+    padding: 50px 10px !important;
+}
+
+.course-grid {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: 20px !important;
+    width: 95% !important;
+    max-width: none !important;
+    padding: 10px !important;
+}
+
+.course-item {
+    text-align: center !important;
+}
+
+.course-item h3 {
+    font-size: 1rem !important;
+}
+
+.course-item img {
+    width: 100% !important;
+    height: auto !important;
+}
+
+.course-carousel {
+    margin-top: 70px !important;
+    padding: 0 10px !important;
+    gap: 10px !important;
+    max-width: 100% !important;
+}
+
+.course-carousel .course-item {
+    min-height: 330px !important;
+    max-width: 100% !important;
+}
+
+.course-carousel .course-item img {
+    height: 230px !important;
+}
+
+.course-carousel-btn {
+    width: 40px !important;
+    height: 40px !important;
+}
+
+/* Section 4: Announcements */
+#announcement {
+    height: auto !important;
+    padding: 50px 10px !important;
+}
+
+.announcements-container {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 20px !important;
+}
+
+.announcement-card {
+    text-align: center !important;
+    padding: 20px !important;
+}
+
+.announcement-card h3 {
+    font-size: 1.2rem !important;
+}
+
+.announcement-card p {
+    font-size: 1rem !important;
+}
+
+/* Footer */
+footer {
+    padding: 30px 15px !important;
+    text-align: center !important;
+}
+
+footer ul {
+    padding-left: 0 !important;
+    list-style-type: none !important;
+}
+
+footer ul li {
+    font-size: 0.9rem !important;
+}
+  
+  nav {
+    display: none;
+  }
+
+  /* Show the menu icon on mobile */
+  .menu-icon {
+    cursor: pointer;
+    font-size: 20px;
+    display: flex; /* Equivalent to d-flex */
+    align-items: center; /* Equivalent to align-items-center */
+    width: 58.33333%; /* Equivalent to col-sm-7 (7 out of 12 columns) */
+    margin-left: auto;
+    margin-right: 15px !important;
+    justify-content: flex-end !important;
+  }
+
+  /* Sidebar styles (hidden by default) */
+  .msidebar {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 250px; /* Sidebar width */
+    height: 100vh;
+    background-color: #ce0505;
+    z-index: 1000;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+  }
+
+  /* When the sidebar is open, show it */
+  .msidebar.show {
+    display: block !important;
+  }
+
+  .msidebar ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  .msidebar ul li {
+    padding: 10px 0;
+  }
+
+  .msidebar ul li a {
+    text-decoration: none;
+    color: #ffffff;
+    font-size: 18px;
+  }
+
+  /* Login Page Responsive Styling */
+  .loginSection {
+    padding: 20px 15px !important;
+    justify-content: center !important;
+    align-items: center !important;
+    min-height: 100vh !important;
+  }
+
+  .loginSection .loginBox {
+    width: 100% !important;
+    max-width: 400px !important;
+    margin: 0 auto !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+  }
+
+  .loginSection .loginBox .loginWrap {
+    padding: 30px 25px !important;
+    margin-top: 20px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+    border-radius: 15px !important;
+  }
+
+  .loginSection .loginBox .loginWrap .logo {
+    text-align: center !important;
+    margin-bottom: 20px !important;
+  }
+
+  .loginSection .loginBox .loginWrap .loginHeader {
+    text-align: center !important;
+    margin-bottom: 25px !important;
+  }
+
+  .loginSection .loginBox .footer {
+    text-align: center !important;
+    padding: 20px !important;
+    margin-top: 20px !important;
+  }
+
+  .loginSection .loginBox .loginWrap .logo img {
+    width: 50px !important;
+  }
+
+  .loginSection .loginBox .loginWrap .loginHeader {
+    font-size: 1.2rem !important;
+    margin-top: 10px !important;
+  }
+
+  .loginSection .loginBox .loginWrap .form-control {
+    height: 45px !important;
+    font-size: 14px !important;
+  }
+
+  .loginSection .loginBox .loginWrap .form-group {
+    margin-bottom: 15px !important;
+  }
+
+  .loginSection .loginBox .loginWrap .form-group .icon {
+    font-size: 23px !important;
+    top: 45% !important;
+    transform: translateY(-50%) !important;
+    left: 10px !important;
+  }
+
+  .loginSection .loginBox .loginWrap .showPass {
+    top: 45% !important;
+    right: 12px !important;
+    transform: translateY(-50%) !important;
+    position: absolute !important;
+  }
+
+  .loginSection .loginBox .loginWrap .btn-blue {
+    height: 45px !important;
+    font-size: 16px !important;
+    font-weight: 600 !important;
+    width: 100% !important;
+    margin-top: 10px !important;
+  }
+
+  .loginSection .loginBox .loginWrap .form-group {
+    position: relative !important;
+    margin-bottom: 15px !important;
+  }
+
+  .loginSection .loginBox .footer {
+    padding: 15px !important;
+    margin-top: 15px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  .loginSection .loginBox .footer span {
+    font-size: 14px !important;
+  }
+
+  /* Staff Login Page Responsive Styling */
+  .signupSection {
+    padding: 20px 15px !important;
+  }
+
+  .signupSection .row {
+    flex-direction: column !important;
+  }
+
+  .signupSection .part1 {
+    order: 2 !important;
+    padding: 20px 15px !important;
+    text-align: center !important;
+  }
+
+  .signupSection .part1 h1 {
+    font-size: 1.5rem !important;
+    margin-bottom: 15px !important;
+  }
+
+  .signupSection .part1 p {
+    font-size: 1rem !important;
+    line-height: 1.5 !important;
+  }
+
+  .signupSection .col-md-4 {
+    order: 1 !important;
+    width: 100% !important;
+    padding: 0 !important;
+    margin-bottom: 20px !important;
+  }
+
+  .signupSection .loginBox {
+    width: 100% !important;
+    max-width: 350px !important;
+    margin: 0 auto !important;
+    border-radius: 15px !important;
+    overflow: hidden !important;
+    max-height: 400px !important;
+  }
+
+  .signupSection .loginBox .logo {
+    margin-bottom: 10px !important;
+  }
+
+  .signupSection .loginBox .logo img {
+    width: 50px !important;
+  }
+
+  .signupSection .loginBox .loginHeader {
+    font-size: 1.2rem !important;
+  }
+
+  .signupSection .loginBox .loginWrap {
+    padding: 20px 20px !important;
+  }
+
+  .signupSection .loginBox .loginWrap .form-control {
+    height: 45px !important;
+    font-size: 14px !important;
+  }
+
+  .signupSection .loginBox .loginWrap .form-group {
+    margin-bottom: 12px !important;
+  }
+
+  .signupSection .loginBox .loginWrap .form-group .icon {
+    font-size: 23px !important;
+    top: 45% !important;
+    transform: translateY(-50%) !important;
+    left: 10px !important;
+    position: absolute !important;
+    z-index: 100 !important;
+  }
+
+  .signupSection .loginBox .loginWrap .showPass {
+    top: 45% !important;
+    right: 12px !important;
+    transform: translateY(-50%) !important;
+    position: absolute !important;
+  }
+
+  .signupSection .loginBox .loginWrap .btn-blue {
+    height: 45px !important;
+    font-size: 16px !important;
+    font-weight: 600 !important;
+  }
+
+  
+}
+
+@media only screen and (min-width:320px) and (max-width:575px){
+  header .row{margin: auto !important;}
+  header button.rounded-circle{width: 35px !important; min-width: 35px !important; height: 35px !important; margin-right: 8px !important;}
+  .userImg{width: 35px; height: 35px;}
+  header .menu-icon{width: 35px !important; min-width: 35px !important; height: 35px !important; margin-right: 10px !important;}
+
+  .myAccWrapper button{padding: 0px !important; min-width: 35px !important; min-height: 35px !important;}
+
+  .homesec {
+    padding: 15px 10px !important;
+}
+
+.intro {
+    max-width: 98% !important;
+    width: 98% !important;
+    padding: 20px 10px !important;
+    margin-top: 50px !important;
+}
+
+.intro h2 {
+    font-size: 1.5rem !important;
+    margin-bottom: 10px !important;
+}
+
+.intro p {
+    font-size: 1rem !important;
+    margin-bottom: 10px !important;
+}
+
+.btn-expanded {
+    width: 250px !important;
+    height: 50px !important;
+    font-size: 1.1rem !important;
+    margin: 15px auto !important;
+}
+
+.course-item h3 {
+    font-size: 1rem !important;
+}
+
+.course-carousel {
+    gap: 8px !important;
+}
+
+.course-carousel .course-item {
+    min-height: 300px !important;
+}
+
+.course-carousel .course-item img {
+    height: 200px !important;
+}
+
+.announcement-card h3 {
+    font-size: 1rem !important;
+}
+
+.announcement-card p {
+    font-size: 0.9rem !important;
+}
+
+.footer-section ul li {
+    font-size: 0.8rem !important;
+}
+
+/* Login Page Responsive Styling for Small Mobile */
+.loginSection {
+    padding: 15px 10px !important;
+    justify-content: center !important;
+    align-items: center !important;
+    min-height: 100vh !important;
+}
+
+.loginSection .loginBox {
+    width: 100% !important;
+    max-width: 350px !important;
+    margin: 0 auto !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+}
+
+.loginSection .loginBox .loginWrap {
+    padding: 25px 20px !important;
+    margin-top: 15px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+    border-radius: 15px !important;
+}
+
+.loginSection .loginBox .loginWrap .logo {
+    text-align: center !important;
+    margin-bottom: 20px !important;
+}
+
+.loginSection .loginBox .loginWrap .loginHeader {
+    text-align: center !important;
+    margin-bottom: 25px !important;
+}
+
+.loginSection .loginBox .footer {
+    text-align: center !important;
+    padding: 20px !important;
+    margin-top: 20px !important;
+}
+
+.loginSection .loginBox .loginWrap .logo img {
+    width: 45px !important;
+}
+
+.loginSection .loginBox .loginWrap .loginHeader {
+    font-size: 1.1rem !important;
+    margin-top: 8px !important;
+}
+
+.loginSection .loginBox .loginWrap .form-control {
+    height: 42px !important;
+    font-size: 13px !important;
+}
+
+.loginSection .loginBox .loginWrap .form-group {
+    margin-bottom: 12px !important;
+}
+
+.loginSection .loginBox .loginWrap .form-group .icon {
+    font-size: 23px !important;
+    top: 45% !important;
+    transform: translateY(-50%) !important;
+    left: 10px !important;
+}
+
+.loginSection .loginBox .loginWrap .showPass {
+    top: 45% !important;
+    right: 10px !important;
+    transform: translateY(-50%) !important;
+    position: absolute !important;
+}
+
+.loginSection .loginBox .loginWrap .btn-blue {
+    height: 42px !important;
+    font-size: 15px !important;
+    font-weight: 600 !important;
+    width: 100% !important;
+    margin-top: 10px !important;
+}
+
+.loginSection .loginBox .loginWrap .form-group {
+    position: relative !important;
+    margin-bottom: 12px !important;
+}
+
+.loginSection .loginBox .footer {
+    padding: 12px !important;
+    margin-top: 12px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+}
+
+.loginSection .loginBox .footer span {
+    font-size: 13px !important;
+}
+
+/* Staff Login Page Responsive Styling for Small Mobile */
+.signupSection {
+    padding: 15px 10px !important;
+}
+
+.signupSection .part1 {
+    padding: 15px 10px !important;
+}
+
+.signupSection .part1 h1 {
+    font-size: 1.3rem !important;
+    margin-bottom: 12px !important;
+}
+
+.signupSection .part1 p {
+    font-size: 0.9rem !important;
+    line-height: 1.4 !important;
+}
+
+.signupSection .col-md-4 {
+    margin-bottom: 15px !important;
+}
+
+.signupSection .loginBox {
+    max-width: 320px !important;
+    border-radius: 12px !important;
+    overflow: hidden !important;
+    max-height: 350px !important;
+}
+
+.signupSection .loginBox .logo img {
+    width: 45px !important;
+}
+
+.signupSection .loginBox .loginHeader {
+    font-size: 1.1rem !important;
+}
+
+.signupSection .loginBox .loginWrap {
+    padding: 15px 15px !important;
+}
+
+.signupSection .loginBox .loginWrap .form-control {
+    height: 42px !important;
+    font-size: 13px !important;
+}
+
+.signupSection .loginBox .loginWrap .form-group {
+    margin-bottom: 10px !important;
+}
+
+.signupSection .loginBox .loginWrap .form-group .icon {
+    font-size: 23px !important;
+    top: 45% !important;
+    transform: translateY(-50%) !important;
+    left: 10px !important;
+    position: absolute !important;
+    z-index: 100 !important;
+}
+
+.signupSection .loginBox .loginWrap .showPass {
+    top: 45% !important;
+    right: 10px !important;
+    transform: translateY(-50%) !important;
+    position: absolute !important;
+}
+
+.signupSection .loginBox .loginWrap .btn-blue {
+    height: 42px !important;
+    font-size: 15px !important;
+    font-weight: 600 !important;
+}
+}

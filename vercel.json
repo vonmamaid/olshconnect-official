@@ -1,0 +1,15 @@
+{
+  "version": 2,
+  "framework": "create-react-app",
+  "buildCommand": "npm run build",
+  "outputDirectory": "build",
+  "devCommand": "npm run start",
+  "installCommand": "npm install",
+  "builds": [
+    { "src": "api/router.js", "use": "@vercel/node" }
+  ],
+  "routes": [
+    { "src": "/api/router", "dest": "/api/router" },
+    { "src": "/api/(.*)", "dest": "/api/router?route=$1" }
+  ]
+}
