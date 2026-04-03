@@ -1,13 +1,15 @@
 {
   "version": 2,
   "framework": "create-react-app",
-  "devCommand": "npm run start",
-  "installCommand": "npm install",
   "buildCommand": "npm run build",
   "outputDirectory": "build",
-  "builds": [
-    { "src": "api/router.js", "use": "@vercel/node" }
-  ],
+  "devCommand": "npm run start",
+  "installCommand": "npm install",
+  "functions": {
+    "api/router.js": {
+      "includeFiles": "api/**"
+    }
+  },
   "rewrites": [
     { "source": "/api/(.*)", "destination": "/api/router?route=$1" },
     { "source": "/(.*)", "destination": "/index.html" }
