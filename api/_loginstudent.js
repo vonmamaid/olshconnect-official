@@ -3,6 +3,14 @@
 const { Pool } = require('pg');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const {
+  getLoginAttemptState,
+  registerLoginFailure,
+  clearLoginFailures,
+  validateRequiredFields,
+  validateMaxLength,
+  isSafeText,
+} = require('./_security');
 
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
@@ -14,6 +22,21 @@ const pool = new Pool({
 module.exports = async (req, res) => {
   if (req.method === 'POST') {
     const { username, password } = req.body;
+    const required = validateRequiredFields(req.body, ['username', 'password']);
+    if (!required.valid) {
+      return res.status(400).json({ message: 'Username and password are required.' });
+    }
+    if (!validateMaxLength(username, 64) || !validateMaxLength(password, 128)) {
+      return res.status(400).json({ message: 'Input exceeds allowed length.' });
+    }
+    if (!isSafeText(username) || !isSafeText(password)) {
+      return res.status(400).json({ message: 'Invalid input detected.' });
+    }
+
+    const lockState = getLoginAttemptState(username, req);
+    if (lockState.lockedUntil) {
+      return res.status(423).json({ message: 'Account temporarily locked due to multiple failed attempts. Please try again later.' });
+    }
 
     try {
       const client = await pool.connect();
@@ -30,6 +53,8 @@ module.exports = async (req, res) => {
       const result = await client.query(studentQuery, [username]);
 
       if (result.rows.length === 0) {
+        registerLoginFailure(username, req);
+        client.release();
         return res.status(401).json({ message: "Invalid credentials" });
       }
 
@@ -37,8 +62,12 @@ module.exports = async (req, res) => {
       const isMatch = await bcrypt.compare(password, user.password);
 
       if (!isMatch) {
+        registerLoginFailure(username, req);
+        client.release();
         return res.status(401).json({ message: "Invalid credentials" });
       }
+
+      clearLoginFailures(username, req);
 
       const idpicBase64 = user.idpic ? Buffer.from(user.idpic).toString('base64') : null;
 

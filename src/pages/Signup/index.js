@@ -135,6 +135,7 @@ const Signup = () => {
         staff_username: user.staff_username || user.username,
         fullName: user.fullName || user.staff_name
       }));
+      localStorage.setItem('lastActivityAt', String(Date.now()));
       
       // Store program_id and staff_id separately for easy access
       if (user.program_id) {
@@ -164,7 +165,13 @@ const Signup = () => {
       window.location.href = redirectPath;
   
     } catch (error) {
-      setErrorMessage(error.response?.data?.message || 'Login failed. Please try again.');
+      if (error.response?.status === 423) {
+        setErrorMessage('Too many failed login attempts. Account is temporarily locked.');
+      } else if (error.response?.status === 429) {
+        setErrorMessage('Too many requests. Please wait and try again.');
+      } else {
+        setErrorMessage(error.response?.data?.message || 'Login failed. Please try again.');
+      }
     } finally {
       setIsLoading(false);
     }

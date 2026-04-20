@@ -1,4 +1,5 @@
 const path = require('path');
+const { checkRateLimit, tryEnterRequest, leaveRequest } = require('./_security');
 
 function sanitizeRoute(route) {
   if (typeof route !== 'string') return '';
@@ -12,6 +13,16 @@ function sanitizeRoute(route) {
 }
 
 module.exports = async (req, res) => {
+  const rateCheck = checkRateLimit(req);
+  if (!rateCheck.allowed) {
+    res.setHeader('Retry-After', String(rateCheck.retryAfterSeconds));
+    return res.status(429).json({ message: 'Too many requests. Please try again later.' });
+  }
+
+  if (!tryEnterRequest()) {
+    return res.status(503).json({ message: 'Server is busy. Please try again shortly.' });
+  }
+
   // Basic CORS support for deployed environments that call this API cross-origin.
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET,POST,PUT,PATCH,DELETE,OPTIONS');
@@ -46,13 +57,15 @@ module.exports = async (req, res) => {
     if (typeof handler !== 'function') {
       return res.status(500).json({ message: `Invalid handler for route: ${route}` });
     }
-    return handler(req, res);
+    return await handler(req, res);
   } catch (err) {
     if (err && (err.code === 'MODULE_NOT_FOUND' || /Cannot find module/.test(String(err.message)))) {
       return res.status(404).json({ message: `API not found: ${route}` });
     }
     console.error(`[api/router] ${req.method} /api/${route} failed:`, err);
     return res.status(500).json({ message: 'Server error', error: err.message });
+  } finally {
+    leaveRequest();
   }
 };
 

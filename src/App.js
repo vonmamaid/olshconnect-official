@@ -67,6 +67,22 @@ function App() {
   const [user, setUser] = useState(null);
   const [token, setToken] = useState(localStorage.getItem('token') || null);
   const [role, setRole] = useState(localStorage.getItem('role') || null);
+  const INACTIVITY_LIMIT_MS = 20 * 60 * 1000;
+
+  const logout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('role');
+    localStorage.removeItem('user');
+    localStorage.removeItem('isLogin');
+    localStorage.removeItem('lastActivityAt');
+    setToken(null);
+    setRole(null);
+    setUser(null);
+    setIsLogin(false);
+    const currentPath = window.location.pathname;
+    const redirectPath = currentPath === '/stafflogin' ? '/stafflogin' : '/login';
+    window.location.href = redirectPath;
+  };
 
   useEffect(() => {
     const handleResize = () => {
@@ -94,8 +110,32 @@ function App() {
       setToken(storedToken);
       setRole(storedRole);
       setUser(JSON.parse(storedUser));
+      localStorage.setItem('lastActivityAt', String(Date.now()));
     }
   }, []);
+
+  useEffect(() => {
+    if (!token) return undefined;
+
+    const updateActivity = () => {
+      localStorage.setItem('lastActivityAt', String(Date.now()));
+    };
+
+    const events = ['mousemove', 'keydown', 'click', 'scroll', 'touchstart'];
+    events.forEach((eventName) => window.addEventListener(eventName, updateActivity));
+
+    const interval = setInterval(() => {
+      const lastActivityAt = Number(localStorage.getItem('lastActivityAt') || Date.now());
+      if (Date.now() - lastActivityAt > INACTIVITY_LIMIT_MS) {
+        logout();
+      }
+    }, 60_000);
+
+    return () => {
+      events.forEach((eventName) => window.removeEventListener(eventName, updateActivity));
+      clearInterval(interval);
+    };
+  }, [token]);
 
   useEffect(() => {
     document.title = "OLSHCOnnect";
@@ -123,6 +163,7 @@ function App() {
     setToken,
     role,
     setRole,
+    logout,
   };
 
   useEffect(() => {

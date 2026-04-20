@@ -11,12 +11,21 @@ require('dotenv').config();
 const express = require('express');
 const path = require('path');
 const fs = require('fs');
+const { checkRateLimit, tryEnterRequest, leaveRequest } = require('./api/_security');
 
 const app = express();
 const PORT = process.env.API_PORT || 3001;
 
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
+app.use((req, res, next) => {
+  const rateCheck = checkRateLimit(req);
+  if (!rateCheck.allowed) {
+    res.setHeader('Retry-After', String(rateCheck.retryAfterSeconds));
+    return res.status(429).json({ message: 'Too many requests. Please try again later.' });
+  }
+  return next();
+});
 
 // Health check
 app.get('/api/health', (req, res) => {
@@ -25,6 +34,10 @@ app.get('/api/health', (req, res) => {
 
 // Mount all api/*.js handlers under /api/:name
 app.all('/api/*', async (req, res) => {
+  if (!tryEnterRequest()) {
+    return res.status(503).json({ message: 'Server is busy. Please try again shortly.' });
+  }
+
   const segments = req.path.split('/').filter(Boolean);
   const name = (segments[1] || '').replace(/[^a-z0-9-]/gi, '');
   if (!name) {
@@ -49,6 +62,8 @@ app.all('/api/*', async (req, res) => {
     if (!res.headersSent) {
       res.status(500).json({ message: 'Server error', error: err.message });
     }
+  } finally {
+    leaveRequest();
   }
 });
 

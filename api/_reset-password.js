@@ -1,5 +1,6 @@
 const { Pool } = require('pg');
  const bcrypt = require('bcryptjs');
+const { validateStrongPassword, validateMaxLength, isSafeText } = require('./_security');
 
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
@@ -18,8 +19,13 @@ module.exports = async (req, res) => {
       return res.status(400).json({ error: 'Student ID and new password are required' });
     }
 
-    if (newPassword.length < 6) {
-      return res.status(400).json({ error: 'Password must be at least 6 characters long' });
+    if (!validateMaxLength(newPassword, 128) || !isSafeText(newPassword)) {
+      return res.status(400).json({ error: 'Invalid password input' });
+    }
+    if (!validateStrongPassword(newPassword)) {
+      return res.status(400).json({
+        error: 'Password must be at least 8 characters and include uppercase, lowercase, number, and special character',
+      });
     }
 
     const client = await pool.connect();

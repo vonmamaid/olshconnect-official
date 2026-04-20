@@ -4,6 +4,7 @@ const { Pool } = require('pg');
 const formidable = require('formidable');
 const jwt = require('jsonwebtoken');
 const fs = require('fs').promises;
+const { validateMaxLength, isSafeText } = require('./_security');
 
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
@@ -32,10 +33,11 @@ module.exports = async (req, res) => {
       const { id } = req.user;
 
       const form = new formidable.IncomingForm({
-        maxFileSize: 50 * 1024 * 1024, // 50MB limit
+        maxFileSize: 5 * 1024 * 1024, // 5MB limit
         allowEmptyFiles: false,
         filter: ({ mimetype }) => {
-          return mimetype && (mimetype.includes('image/') || mimetype === 'application/pdf');
+          const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'application/pdf'];
+          return mimetype && allowedTypes.includes(mimetype.toLowerCase());
         }
       });
 
@@ -69,6 +71,30 @@ module.exports = async (req, res) => {
       // Convert string values to integers where needed
       const programs = parseInt(normalizedFields.programs);
       const yearLevel = parseInt(normalizedFields.yearLevel);
+
+      const lengthValid = [
+        [normalizedFields.studentType, 24],
+        [normalizedFields.academic_year, 16],
+        [normalizedFields.semester, 20],
+        [normalizedFields.previousSchool, 180],
+        [normalizedFields.previousProgram, 180],
+        [normalizedFields.previousAcademicYear, 16],
+      ].every(([value, max]) => validateMaxLength(value, max));
+
+      if (!lengthValid) {
+        return res.status(400).json({ error: 'Input exceeds allowed length' });
+      }
+      const safeText = [
+        normalizedFields.studentType,
+        normalizedFields.academic_year,
+        normalizedFields.semester,
+        normalizedFields.previousSchool,
+        normalizedFields.previousProgram,
+        normalizedFields.previousAcademicYear,
+      ].every((value) => isSafeText(value));
+      if (!safeText) {
+        return res.status(400).json({ error: 'Invalid input detected' });
+      }
 
       if (isNaN(programs) || isNaN(yearLevel)) {
         return res.status(400).json({

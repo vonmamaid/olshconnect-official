@@ -105,8 +105,9 @@ const ForgotPassword = () => {
       return;
     }
 
-    if (newPassword.length < 6) {
-      setError('Password must be at least 6 characters long');
+    const strongPassword = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,}$/;
+    if (!strongPassword.test(newPassword)) {
+      setError('Password must be 8+ chars and include uppercase, lowercase, number, and special character');
       setIsLoading(false);
       return;
     }

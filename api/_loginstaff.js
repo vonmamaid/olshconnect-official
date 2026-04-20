@@ -3,6 +3,14 @@
 const { Pool } = require('pg');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const {
+  getLoginAttemptState,
+  registerLoginFailure,
+  clearLoginFailures,
+  validateRequiredFields,
+  validateMaxLength,
+  isSafeText,
+} = require('./_security');
 
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
@@ -15,8 +23,20 @@ module.exports = async (req, res) => {
   if (req.method === 'POST') {
     const { staff_username, staff_password } = req.body;
 
-    if (!staff_username || !staff_password) {
+    const required = validateRequiredFields(req.body, ['staff_username', 'staff_password']);
+    if (!required.valid) {
       return res.status(400).json({ message: "Username and password are required." });
+    }
+    if (!validateMaxLength(staff_username, 64) || !validateMaxLength(staff_password, 128)) {
+      return res.status(400).json({ message: 'Input exceeds allowed length.' });
+    }
+    if (!isSafeText(staff_username) || !isSafeText(staff_password)) {
+      return res.status(400).json({ message: 'Invalid input detected.' });
+    }
+
+    const lockState = getLoginAttemptState(staff_username, req);
+    if (lockState.lockedUntil) {
+      return res.status(423).json({ message: 'Account temporarily locked due to multiple failed attempts. Please try again later.' });
     }
 
     try {
@@ -31,6 +51,8 @@ module.exports = async (req, res) => {
       const result = await client.query(staffQuery, [staff_username]);
 
       if (result.rows.length === 0) {
+        registerLoginFailure(staff_username, req);
+        client.release();
         return res.status(401).json({ message: "Invalid credentials" });
       }
 
@@ -38,8 +60,12 @@ module.exports = async (req, res) => {
       const isMatch = await bcrypt.compare(staff_password, staff.staff_password);
 
       if (!isMatch) {
+        registerLoginFailure(staff_username, req);
+        client.release();
         return res.status(401).json({ message: "Invalid credentials" });
       }
+
+      clearLoginFailures(staff_username, req);
 
       const token = jwt.sign(
         { 

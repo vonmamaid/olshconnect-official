@@ -264,6 +264,7 @@ const Login = () => {
         localStorage.setItem('role', user.role);
         localStorage.setItem('student_id', user.student_id);
         localStorage.setItem('user', JSON.stringify(user));
+        localStorage.setItem('lastActivityAt', String(Date.now()));
 
         // Update context
         setToken(token);
@@ -273,6 +274,12 @@ const Login = () => {
 
       } catch (error) {
         let errorMsg = 'Login failed. Please try again.';
+        if (error.response?.status === 423) {
+          errorMsg = 'Too many failed login attempts. Account is temporarily locked.';
+        }
+        if (error.response?.status === 429) {
+          errorMsg = 'Too many requests. Please wait and try again.';
+        }
         if (error.response?.data?.message) {
           errorMsg = error.response.data.message;
         }

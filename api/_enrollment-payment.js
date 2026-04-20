@@ -32,7 +32,10 @@ module.exports = async (req, res) => {
       const form = new formidable.IncomingForm({
         maxFileSize: 5 * 1024 * 1024,
         allowEmptyFiles: false,
-        filter: ({ mimetype }) => mimetype && mimetype.includes('image/')
+        filter: ({ mimetype }) => {
+          const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png'];
+          return mimetype && allowedTypes.includes(mimetype.toLowerCase());
+        }
       });
 
       const [fields, files] = await new Promise((resolve, reject) => {

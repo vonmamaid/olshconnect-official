@@ -2,6 +2,13 @@
 
 const { Pool } = require('pg');
 const bcrypt = require('bcryptjs');
+const {
+  validateRequiredFields,
+  validateMaxLength,
+  isSafeText,
+  validateEmailFormat,
+  validateStrongPassword,
+} = require('./_security');
 
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,  // Fetch the DB URL from environment variables
@@ -27,6 +34,42 @@ module.exports = async (req, res) => {
       guardianName,
       guardianContactNo,
     } = req.body;
+
+    const required = validateRequiredFields(req.body, [
+      'userName', 'password', 'firstName', 'lastName', 'sex', 'birthdate', 'email', 'number',
+    ]);
+    if (!required.valid) {
+      return res.status(400).json({ message: 'Missing required fields.' });
+    }
+    if (!validateEmailFormat(email)) {
+      return res.status(400).json({ message: 'Invalid email format.' });
+    }
+    if (!validateStrongPassword(password)) {
+      return res.status(400).json({
+        message: 'Password must be at least 8 characters with uppercase, lowercase, number, and special character.',
+      });
+    }
+
+    const textFieldChecks = [
+      [userName, 64],
+      [firstName, 80],
+      [middleName, 80],
+      [lastName, 80],
+      [suffix, 20],
+      [placeOfBirth, 120],
+      [religion, 80],
+      [email, 254],
+      [number, 20],
+      [street_text, 255],
+      [guardianName, 120],
+      [guardianContactNo, 20],
+    ];
+    if (textFieldChecks.some(([value, max]) => !validateMaxLength(value, max))) {
+      return res.status(400).json({ message: 'Input exceeds allowed length.' });
+    }
+    if (textFieldChecks.some(([value]) => !isSafeText(value))) {
+      return res.status(400).json({ message: 'Invalid input detected.' });
+    }
 
     try {
       const client = await pool.connect();

@@ -1,4 +1,5 @@
 const { Pool } = require('pg');
+const { validateEmailFormat, validateMaxLength, isSafeText } = require('./_security');
 
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
@@ -15,6 +16,15 @@ module.exports = async (req, res) => {
 
     if (!username || !contactNumber || !email) {
       return res.status(400).json({ error: 'Username, contact number, and email are required' });
+    }
+    if (!validateEmailFormat(email)) {
+      return res.status(400).json({ error: 'Invalid email format' });
+    }
+    if (!validateMaxLength(username, 64) || !validateMaxLength(contactNumber, 20) || !validateMaxLength(email, 254)) {
+      return res.status(400).json({ error: 'Input exceeds allowed length' });
+    }
+    if (!isSafeText(username) || !isSafeText(contactNumber) || !isSafeText(email)) {
+      return res.status(400).json({ error: 'Invalid input detected' });
     }
 
     const client = await pool.connect();
